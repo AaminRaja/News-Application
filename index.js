@@ -9,7 +9,8 @@ const cookieParser = require('cookie-parser');
 let app = express()
 // app.use(cors())
 app.use(cors({
-    origin: 'http://localhost:3000', // Frontend URL
+    origin: 'http://localhost:3000',
+    // origin: 'https://joyful-bonbon-984e24.netlify.app/',
     credentials: true,               // Allow credentials (cookies)
     // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include all methods you might use
     // allowedHeaders: ['Content-Type', 'Authorization'], // Include headers that might be sent

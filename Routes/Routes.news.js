@@ -4,8 +4,7 @@ let { addNews, editNews, deleteOneNews, fetchAllNews, filterByCategory, filterBy
 let { authenticateAccessToken } = require('../Controllers/controllers.Users')
 
 let router = express.Router()
-// router.post('/addNews', authenticateAccessToken, addNews)
-router.post('/addNews', addNews)
+router.post('/addNews',authenticateAccessToken, addNews)
 router.put('/editNews/:id', authenticateAccessToken, editNews)
 router.delete('/deleteOneNews/:id', authenticateAccessToken, deleteOneNews)
 router.put('/softDeleteOneNews/:id', authenticateAccessToken, softDeleteOneNews)

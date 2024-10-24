@@ -6,13 +6,15 @@ let addNews = async (req, res, next) => {
         let { userRole } = req.user
         if (userRole === 'Editor') {
             let { Category, SubCategory, Heading, Summary, SubEditor, Image, Location, Content, newsStatus } = req.body
-            if (!(Category && SubCategory && Heading && Summary && SubEditor && Image && Content)) {
-                return res.status(400).json({ error: true, message: "Send Category, SubCategory, Heading, SubEditor, Image and Content to backend" })
+            console.log(Category, SubCategory, Heading, Summary, SubEditor, Image, Location, Content, newsStatus);
+
+            if (!(Category && SubCategory && Heading && Summary && SubEditor && Image && Content.length)) {
+                return res.status(400).json({ error: true, message: "Send Category, SubCategory, Heading, SubEditor, Summary, Image and Content to backend" })
             }
 
             let newNews = await news.create({ Category, SubCategory, Heading, Summary, SubEditor, Image, Location, Content, newsStatus });
-            newNews.Content = newNews.Content.slice(0, 10)
-            console.log(newNews);
+            // newNews.Content = newNews.Content.slice(0, 10)
+            // console.log(newNews);
 
             return res.status(200).json({ error: false, message: "New News added Successfully", news: newNews })
         } else {
@@ -29,9 +31,12 @@ let editNews = async (req, res, next) => {
         let { userRole } = req.user
         if (userRole === 'Editor') {
             let { id } = req.params
+
             let { Category, SubCategory, Heading, Summary, SubEditor, Image, Location, Content, newsStatus } = req.body
-            if (!(Category && SubCategory && Heading && Summary && SubEditor && Image && Location && Content)) {
-                return res.status(400).json({ error: true, message: "Send Category, SubCategory, SubCategory, Heading, SubEditor, Image, Location and Content to backend" })
+
+            console.log(Category);
+            if (!(Category && SubCategory && Heading && Summary && SubEditor && Image && Content.length)) {
+                return res.status(400).json({ error: true, message: "Send Category, SubCategory, Heading, SubEditor, Summary, Image and Content to backend" })
             }
 
             let newsToBeUpdate = await news.findByIdAndUpdate(id)
@@ -39,7 +44,7 @@ let editNews = async (req, res, next) => {
             if (newsToBeUpdate) {
                 let EditedDateAndTime = Date.now()
                 console.log(`EditedDateAndTime : ${EditedDateAndTime}`);
-                let editedNews = await news.updateOne({ _id: id }, { Category, SubCategory, Heading, Summary, SubEditor, Image, Location, Content, EditedDateAndTime, newsStatus }, { new: true })
+                let editedNews = await news.updateOne({ _id: id }, { Category, SubCategory, Heading, Summary, SubEditor, Image, Location, Content, EditedDateAndTime, newsStatus, editedNew: true }, { new: true })
                 return res.status(200).json({ error: false, message: "News data updated Succeessfully", news: editedNews })
             } else {
                 return res.status(404).json({ error: true, message: "there is no news with this newsId" }) //Not found
@@ -279,14 +284,16 @@ let fetchBreakingNewses = async (req, res, next) => {
             } else {
                 return res.json({ error: true, message: "There is no breaking newses" })
             }
+        }else{
+            let breakingNewses = await news.find({ newsStatus: 'Breaking', isDeleted: false }).sort({_id:-1}).limit(1)
+
+            if (breakingNewses.length) {
+                return res.status(200).json({ error: false, message: "Breaking Newses Fteched", breakingNewses })
+            } else {
+                return res.json({ error: true, message: "There is no breaking newses" })
+            }
         }
-        let breakingNewses = await news.find({ newsStatus: 'Breaking', isDeleted: false })
-        // console.log(breakingNewses);
-        if (breakingNewses.length) {
-            return res.status(200).json({ error: false, message: "Breaking Newses Fteched", breakingNewses })
-        } else {
-            return res.json({ error: true, message: "There is no breaking newses" })
-        }
+        
     } catch (error) {
         next(error)
     }
