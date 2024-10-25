@@ -34,11 +34,12 @@ app.use((err, req, res, next) => {
 
 let startServer = async () => {
     try {
-        await connectDataBase(process.env.PORT)
+        await connectDataBase(process.env.MONGO_URI)
         console.log('MongoDB connected Successfully');
 
-        app.listen(8080, () => {
-            console.log('Server is running at port : http://localhost:8080');
+        let port = process.env.PORT || 8080
+        app.listen(port, () => {
+            console.log(`Server is running at port : http://192.168.0.117:${port}`);
         })
 
     } catch (error) {
