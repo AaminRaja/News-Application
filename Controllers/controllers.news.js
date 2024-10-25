@@ -284,8 +284,8 @@ let fetchBreakingNewses = async (req, res, next) => {
             } else {
                 return res.json({ error: true, message: "There is no breaking newses" })
             }
-        }else{
-            let breakingNewses = await news.find({ newsStatus: 'Breaking', isDeleted: false }).sort({_id:-1}).limit(1)
+        } else {
+            let breakingNewses = await news.find({ newsStatus: 'Breaking', isDeleted: false }).sort({ _id: -1 }).limit(1)
 
             if (breakingNewses.length) {
                 return res.status(200).json({ error: false, message: "Breaking Newses Fteched", breakingNewses })
@@ -293,7 +293,7 @@ let fetchBreakingNewses = async (req, res, next) => {
                 return res.json({ error: true, message: "There is no breaking newses" })
             }
         }
-        
+
     } catch (error) {
         next(error)
     }
