@@ -39,7 +39,7 @@ let startServer = async () => {
 
         let port = process.env.PORT || 8080
         app.listen(port, () => {
-            console.log(`Server is running at port : http://192.168.0.117:${port}`);
+            console.log(`Server is running at port : http://localhost:${port}`);
         })
 
     } catch (error) {
