@@ -266,7 +266,7 @@ let fetchBreakingNewses = async (req, res, next) => {
     console.log('Fetching breaking news');
     try {
         let { currentPageNumber, newsPerPage } = req.query
-        console.log(currentPageNumber, newsPerPage);
+        // console.log(currentPageNumber, newsPerPage);
         if (newsPerPage && currentPageNumber) {
             currentPageNumber = parseInt(currentPageNumber) || 1
             newsPerPage = parseInt(newsPerPage) || 9
