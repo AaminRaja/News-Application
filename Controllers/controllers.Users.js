@@ -81,7 +81,7 @@ let userLogin = async (req, res, next) => {
                     console.log(`RefreshToken:${refreshToken}`);
 
                     // !!!!
-                    // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
+                    res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
                     // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
                     // res.cookie('refreshToken', refreshToken, {
                     //     httpOnly: true,
