@@ -81,15 +81,15 @@ let userLogin = async (req, res, next) => {
                     console.log(`RefreshToken:${refreshToken}`);
 
                     // !!!!
-                    res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
+                    // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
                     // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
-                    // res.cookie('refreshToken', refreshToken, {
-                    //     httpOnly: true,
-                    //     secure: true,          // Set to true for HTTPS
-                    //     sameSite: 'None',      // 'None' is required with `secure` for cross-origin
-                    //     maxAge: 10 * 24 * 60 * 60 * 1000,
-                    //     path: '/'
-                    // });
+                    res.cookie('refreshToken', refreshToken, {
+                        httpOnly: true,
+                        secure: true,          // Set to true for HTTPS
+                        sameSite: 'None',      // 'None' is required with `secure` for cross-origin
+                        maxAge: 10 * 24 * 60 * 60 * 1000,
+                        path: '/'
+                    });
 
                     res.status(200).json({ error: false, message: "User Login Successfull", user: registeredUserByUsername, accessToken })
                 } else {
@@ -110,15 +110,15 @@ let userLogin = async (req, res, next) => {
                     let refreshToken = generateRefreshToken(registeredUserByEmailAddress)
 
                     // !!!!
-                    res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
+                    // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
                     // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
-                    // res.cookie('refreshToken', refreshToken, {
-                    //     httpOnly: true,
-                    //     secure: true,          // Set to true for HTTPS
-                    //     sameSite: 'None',      // 'None' is required with `secure` for cross-origin
-                    //     maxAge: 10 * 24 * 60 * 60 * 1000,
-                    //     path: '/'
-                    // });
+                    res.cookie('refreshToken', refreshToken, {
+                        httpOnly: true,
+                        secure: true,          // Set to true for HTTPS
+                        sameSite: 'None',      // 'None' is required with `secure` for cross-origin
+                        maxAge: 10 * 24 * 60 * 60 * 1000,
+                        path: '/'
+                    });
 
                     res.status(200).json({ error: false, message: "User Login Successfull", user: registeredUserByEmailAddress, accessToken })
                 } else {
@@ -142,15 +142,15 @@ let userLogin = async (req, res, next) => {
                     console.log(decode);
 
                     // !!!!
-                    res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
+                    // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
                     // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
-                    // res.cookie('refreshToken', refreshToken, {
-                    //     httpOnly: true,
-                    //     secure: true,          // Set to true for HTTPS
-                    //     sameSite: 'None',      // 'None' is required with `secure` for cross-origin
-                    //     maxAge: 10 * 24 * 60 * 60 * 1000,
-                    //     path: '/'
-                    // });
+                    res.cookie('refreshToken', refreshToken, {
+                        httpOnly: true,
+                        secure: true,          // Set to true for HTTPS
+                        sameSite: 'None',      // 'None' is required with `secure` for cross-origin
+                        maxAge: 10 * 24 * 60 * 60 * 1000,
+                        path: '/'
+                    });
 
                     res.status(200).json({ error: false, message: "User Login Successfull", user: registeredUserByPhonNumber, accessToken })
 
@@ -227,15 +227,15 @@ let generateNewAccessToken = async (req, res, next) => {
             console.log(`newRefreshToken : ${newRefreshToken}`);
 
             // !!!!!
-            res.cookie('refreshToken', newRefreshToken, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
+            // res.cookie('refreshToken', newRefreshToken, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
             // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 10 * 24 * 60 * 60 * 1000, path: '/' })
-            // res.cookie('refreshToken', refreshToken, {
-            //     httpOnly: true,
-            //     secure: true,          // Set to true for HTTPS
-            //     sameSite: 'None',      // 'None' is required with `secure` for cross-origin
-            //     maxAge: 10 * 24 * 60 * 60 * 1000,
-            //     path: '/'
-            // });
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: true,          // Set to true for HTTPS
+                sameSite: 'None',      // 'None' is required with `secure` for cross-origin
+                maxAge: 10 * 24 * 60 * 60 * 1000,
+                path: '/'
+            });
 
             return res.json({ error: false, message: "New Access token generated by using refresh token", newAccessToken })
         })
