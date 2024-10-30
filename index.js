@@ -11,7 +11,7 @@ let app = express()
 // app.use(cors())
 app.use(cors({
     // origin: 'http://localhost:3000',
-    origin: 'the-n.netlify.app/',
+    origin: 'https://the-n.netlify.app',
     credentials: true,               // Allow credentials (cookies)
     // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include all methods you might use
     // allowedHeaders: ['Content-Type', 'Authorization'], // Include headers that might be sent
