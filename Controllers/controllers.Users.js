@@ -258,8 +258,12 @@ let updateUserDetails = async (req, res, next) => {
             }
 
             let existingUser = await user.findOne({ Username: { $regex: `${Username}`, $options: "i" } });
+            console.log(existingUser);
             if (existingUser) {
-                return res.status(409).json({ error: true, message: "This Username is already registered" })
+                if(existingUser.Username === Username){
+                    return res.status(409).json({ error: true, message: "This Username is already registered" })
+                }
+                
             }
 
             await user.findOneAndUpdate({ _id: _id }, { Username, Password, Preferences }, { new: true })
