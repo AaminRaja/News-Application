@@ -5,9 +5,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config()
 const cookieParser = require('cookie-parser');
 
-
-//Not used cookie parser
-
 let userSignup = async (req, res, next) => {
     console.log("new user sign up");
     try {
@@ -17,19 +14,19 @@ let userSignup = async (req, res, next) => {
             // If any required data is missing from the frontend when making a request to the backend, the backend should respond with a 400 Bad Request status
         }
 
-        let existingUserByUsername = await user.findOne({ Username })
+        let existingUserByUsername = await user.findOne({ Username: { $regex: `${Username}`, $options: "i" } })
         if (existingUserByUsername) {
-            return res.status(409).json({ error: true, message: "This Username is already registered" })  //409 Conflict status
+            return res.status(409).json({ error: true, message: "This Username is already registered" })
         }
 
         let existingUserByEmailAddress = await user.findOne({ EmailAddress })
         if (existingUserByEmailAddress) {
-            return res.status(409).json({ error: true, message: "This email is already registered" })  //409 Conflict status
+            return res.status(409).json({ error: true, message: "This email is already registered" })
         }
 
         let existingUserByPhonNumber = await user.findOne({ PhoneNumber })
         if (existingUserByPhonNumber) {
-            return res.status(409).json({ error: true, message: "This Phone Number is already registered" })  //409 Conflict status
+            return res.status(409).json({ error: true, message: "This Phone Number is already registered" })
         }
 
         let hashedPassword = await bcryptjs.hash(Password, 10)
@@ -247,20 +244,26 @@ let generateNewAccessToken = async (req, res, next) => {
 let updateUserDetails = async (req, res, next) => {
     console.log('updating user details');
     console.log(req.body);
-    // console.log(user);
     try {
-        // let { Username, EmailAddress, PhoneNumber, Password, Preferences, _id } = req.body
         let { Username, Password, Preferences, _id } = req.body
+        console.log(Username, Password, Preferences, _id);
+
         let userToBeUpdate = await user.findOne({ _id: _id })
+
         if (userToBeUpdate) {
-            let existingUserByUsername = await user.find({ Username })
-            if (existingUserByUsername.length > 1) {
+            if (userToBeUpdate.Username === Username) {
+                await user.findOneAndUpdate({ _id: _id }, { Username, Password, Preferences }, { new: true })
+                let updatedUser = await user.findOne({ _id: _id })
+                return res.status(200).json({ error: false, message: "User updated successfully", updatedUser })
+            }
+
+            let existingUser = await user.findOne({ Username: { $regex: `${Username}`, $options: "i" } });
+            if (existingUser) {
                 return res.status(409).json({ error: true, message: "This Username is already registered" })
             }
 
             await user.findOneAndUpdate({ _id: _id }, { Username, Password, Preferences }, { new: true })
             let updatedUser = await user.findOne({ _id: _id })
-            // console.log(updatedUser);
             return res.status(200).json({ error: false, message: "User updated successfully", updatedUser })
         } else {
             return res.status(404).json({ error: true, message: "No user in this id" })
